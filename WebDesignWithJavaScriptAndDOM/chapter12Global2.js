@@ -66,6 +66,7 @@ function displayAbbreviations() {
 
 // Contact
 
+
 function focusLabels() {
   if (!document.getElementsByTagName) return false;
   var labels = document.getElementsByTagName("label");
