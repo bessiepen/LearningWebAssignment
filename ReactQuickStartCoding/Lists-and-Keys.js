@@ -55,6 +55,21 @@ ReactDOM.render(
 );
 
 
+// Keys在引用Components时的正确用法
+
+function ListItem(props) {
+  // Keys不需要用在这里
+  return <li>{props.value}</li>;
+}
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    // Keys应该用在这里：
+    <ListItem key={number.toString()} value={number} />
+)；
+}
+
+
 // Keys 与sibling要独一无二，但是全局上可以重复使用
 
 function Blog(props) {
