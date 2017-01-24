@@ -1,12 +1,20 @@
+/*
+问题：
+1，html结构：用更具体的<form>,<table>,<tr>代替无语义的<div>;
+2，逻辑问题：如何通过逻辑设置红色字体；如何通过逻辑设置category与product的变换；
+3，props问题：疏通从上到下或从下到上props的代入flow。
+
+*/
+
 class ProductCategoryRow extends React.Component {
   render() {
-    return <tr><th>{this.props.category}</th></tr>;
+    return <tr><th colSpan="2">{this.props.category}</th></tr>;
   }
 }
 class ProductRow extends React.Component {
   render() {
     var name = this.props.product.stocked ? this.props.product.name :
-    <span>
+    <span style={{color: 'red'}}>
       {this.props.product.name}
     </span>;
     return (
@@ -55,6 +63,7 @@ class SearchBar extends React.Component {
       </form>
     );
   }
+    // {' '} 是增加空格
 }
 class FilterableProductTable extends React.Component {
   render() {
