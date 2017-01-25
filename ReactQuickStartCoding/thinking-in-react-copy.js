@@ -1,4 +1,17 @@
 // 根据第一次的三大问题重写
+// 本次问题：
+// 1，html格式错误：
+//     忘记<tr><td></td></tr>
+//     忘记input attribute：placeholder
+// 2，react里return中必须是一个整体元素，不要忘记<div></div>
+// 3，product的问题
+// PRODUCTS是JSON array，且嵌套了object。使用array.forEach(function(element){})方法来遍历PRODUCTS中的每一个item。并且其中引用了<ProductRow />,所以product就漏入了<ProductRow />中。
+
+// 本次成就：
+// 1，先成功写完html显示结构 － 轻松
+// 2，成功处理完需要逻辑的部分 － 有难度，但完成良好
+// 3，检查props的data flow － 被难住了：product问题，查阅资料最终了解了
+// 4，和原例对照检验错误
 
 class ProductCategoryRow extends React.Component {
   render() {
@@ -10,7 +23,7 @@ class ProductRow extends React.Component {
     const name = this.props.product.stocked ? this.props.product.name :
       <span style={{color: "red"}}>
         {this.props.product.name}
-      </span>
+      </span>;
     return (
       <tr>
         <td>{name}</td>
@@ -25,16 +38,18 @@ class ProductTable extends React.Component {
     const lastCategory = null;
     this.props.products.forEach(function(product) {
       if (product.category !== lastCategory) {
-        rows.push(<ProductCategoryRow product={product.category} />);
+        rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
       }
-      rows.push(<ProductRow product={product} />);
+      rows.push(<ProductRow product={product} key={product.name} />);
       lastCategory = product.category;
     });
     return (
       <table>
         <thead>
-          <th>Name</th>
-          <th>Price</th>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
         </thead>
         <tbody>
           {rows}
@@ -47,7 +62,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <form>
-        <input type="text" value="Search..." />
+        <input type="text" placeholder="Search..." />
         <p>
           <input type="checkbox" />
           {' '}
@@ -60,8 +75,10 @@ class SearchBar extends React.Component {
 class FilterableProductTable extends React.Component {
   render() {
     return (
-      <SearchBar />;
-      <ProductTable products={this.props.products} />;
+      <div>
+        <SearchBar />
+        <ProductTable products={this.props.products} />
+      </div>
     );
   }
 }
