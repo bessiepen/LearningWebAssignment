@@ -1,10 +1,4 @@
-/*
-问题：
-1，html结构：用更具体的<form>,<table>,<tr>代替无语义的<div>;
-2，逻辑问题：如何通过逻辑设置红色字体；如何通过逻辑设置category与product的变换；
-3，props问题：疏通从上到下或从下到上props的代入flow。
-
-*/
+// 根据第一次的三大问题重写
 
 class ProductCategoryRow extends React.Component {
   render() {
@@ -13,10 +7,10 @@ class ProductCategoryRow extends React.Component {
 }
 class ProductRow extends React.Component {
   render() {
-    var name = this.props.product.stocked ? this.props.product.name :
-    <span style={{color: 'red'}}>
-      {this.props.product.name}
-    </span>;
+    const name = this.props.product.stocked ? this.props.product.name :
+      <span style={{color: "red"}}>
+        {this.props.product.name}
+      </span>
     return (
       <tr>
         <td>{name}</td>
@@ -27,28 +21,24 @@ class ProductRow extends React.Component {
 }
 class ProductTable extends React.Component {
   render() {
-    var rows = [];
-    var lastCategory = null;
-    // The forEach() method executes a provided function once for each array element.
-    // syntax: array.forEach(function(element){});
-    // 这里的element指array中的每一个item;
-    // 所以product={category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'}，遍历下去.
+    const rows = [];
+    const lastCategory = null;
     this.props.products.forEach(function(product) {
       if (product.category !== lastCategory) {
-        rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
+        rows.push(<ProductCategoryRow product={product.category} />);
       }
-      rows.push(<ProductRow product={product} key={product.name} />);
+      rows.push(<ProductRow product={product} />);
       lastCategory = product.category;
     });
     return (
       <table>
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-          </tr>
+          <th>Name</th>
+          <th>Price</th>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody>
+          {rows}
+        </tbody>
       </table>
     );
   }
@@ -57,7 +47,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <form>
-        <input type="text" placeholder="Search..." />
+        <input type="text" value="Search..." />
         <p>
           <input type="checkbox" />
           {' '}
@@ -66,15 +56,12 @@ class SearchBar extends React.Component {
       </form>
     );
   }
-    // {' '} 是增加空格
 }
 class FilterableProductTable extends React.Component {
   render() {
     return (
-      <div>
-        <SearchBar />
-        <ProductTable products={this.props.products}/>
-      </div>
+      <SearchBar />;
+      <ProductTable products={this.props.products} />;
     );
   }
 }
